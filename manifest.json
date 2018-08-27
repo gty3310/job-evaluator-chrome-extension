@@ -1,0 +1,14 @@
+{
+  "name": "Job Evaluator",
+  "version": "1.0",
+  "description": "Evaluates job decriptions with user inputted skills to provide a score for how suitable the job is.",
+  "permissions":["storage"],
+  "background":{
+    "scripts": ["text_search.js"],
+    "persistent":false
+  },
+  "browser_action":{
+    "default_popup":"searchbar.html"
+  },
+  "manifest_version": 2
+}
