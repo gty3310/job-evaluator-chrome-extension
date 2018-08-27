@@ -5,8 +5,6 @@
 As job seekers, we often find ourselves wasting a lot of time by clicking into jobs descriptions that does not fit our skills/interests.
 So we created Job Evaluator, a Chrome Extension that evaluates job descriptions for users, let them see the “suitability score” for job descriptions before they start reading them -- evaluated based on how much do the user’s skill sets and interests fit with the job descriptions.
 
-![](https://i.imgur.com/6zxbaK9.png)
-
 ## Functionality:
 
 - [ ] Access the trendy skills api to get an up-to-date list of tech skills to be searched for in job descriptions
@@ -21,6 +19,8 @@ So we created Job Evaluator, a Chrome Extension that evaluates job descriptions 
 - [ ] list out the relevant, related, and irrelevant skills they have compared to the job description.
 
 - [ ] provide the ability to create an account so users can save the jobs they are interested in and have a list of skills shared by their saved job descriptions in order to efficiently gain skills to increase their chances of getting their preferred jobs.
+
+![](https://i.imgur.com/6zxbaK9.png)
 
 ## MVP List:
 
