@@ -5,7 +5,7 @@
 As job seekers, we often find ourselves wasting a lot of time by clicking into jobs descriptions that does not fit our skills/interests.
 So we created Job Evaluator, a Chrome Extension that evaluates job descriptions for users, let them see the “suitability score” for job descriptions before they start reading them -- evaluated based on how much do the user’s skill sets and interests fit with the job descriptions.
 
-~[](https://i.imgur.com/6zxbaK9.png)
+![](https://i.imgur.com/6zxbaK9.png)
 
 ## Functionality:
 
