@@ -6,17 +6,13 @@ chrome.runtime.onMessage.addListener(
     switch(request.command){
       case "findAllSkills":
         const notChar = (c)=>{
-          return 'abcdefghijklmnopqrstuvwxyz'.indexOf(c) < 0 &&
-            'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c) < 0;
+          return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c) < 0;
         }
         //-----------------------------------------------------------
         const allSkills = request.allSkills.sort((a,b)=>b.length - a.length);
         const userSkills = request.userSkills.sort((a,b)=>b.length - a.length);
         let userCounter = {};
         let allCounter = {};
-        console.log('find all skills');
-        console.log(allSkills);
-        console.log(userSkills);
 
         let reader = document.body.innerHTML;
         let setter = document.body.innerHTML;
@@ -46,14 +42,14 @@ chrome.runtime.onMessage.addListener(
               let substring = reader.substring(ridx, ridx + userSkills[i].length);
               if(substring.toLowerCase() === userSkills[i].toLowerCase() &&
                   notChar(reader[ridx - 1]) &&
-                  notChar(reader[ridx + userSkills[i].length + 1])){
+                  notChar(reader[ridx + userSkills[i].length])){
                 // increase counter or set counter to 1 for skill
-                if(userCounter[userSkills[i]])
+                if(!userCounter[userSkills[i]])
                   userCounter[userSkills[i]] = 1;
                 else
                   userCounter[userSkills[i]] += 1;
 
-                if(allCounter[userSkills[i]])
+                if(!allCounter[userSkills[i]])
                   allCounter[userSkills[i]] = 1;
                 else
                   allCounter[userSkills[i]] += 1;
@@ -84,9 +80,9 @@ chrome.runtime.onMessage.addListener(
                 let substring = reader.substring(ridx, ridx + allSkills[i].length);
                 if(substring.toLowerCase() === allSkills[i].toLowerCase() &&
                     notChar(reader[ridx - 1]) &&
-                    notChar(reader[ridx + allSkills[i].length + 1])) {
+                    notChar(reader[ridx + allSkills[i].length])) {
                   // increase counter or set counter to 1 for keyword
-                  if(allCounter[allSkills[i]])
+                  if(!allCounter[allSkills[i]])
                     allCounter[allSkills[i]] = 1;
                   else
                     allCounter[allSkills[i]] += 1;
@@ -114,6 +110,8 @@ chrome.runtime.onMessage.addListener(
           ridx++;
           sidx++;
         }
+        console.log(userCounter);
+        console.log(allCounter);
         document.body.innerHTML = setter;
         break;
         //-----------------------------------------------------------
@@ -153,6 +151,5 @@ chrome.runtime.onMessage.addListener(
         console.log('invalid request command');
         break;
     }
-    console.log('end of onMesasge');
   }
 );
