@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(
         const notChar = (c)=>{
           return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c) < 0;
         }
-        //-----------------------------------------------------------
+
         const allSkills = request.allSkills.sort((a,b)=>b.length - a.length);
         const userSkills = request.userSkills.sort((a,b)=>b.length - a.length);
         let userCounter = {};
@@ -18,24 +18,18 @@ chrome.runtime.onMessage.addListener(
         let setter = document.body.innerHTML;
 
         let inCode = false;
-        let inQuotes = false;
         let ridx = 0;
         let sidx = 0;
 
         while(ridx < reader.length){
-          // makes sure keyword isn't in html code
-          // if(inCode && "`'\"".indexOf(reader[i]) > -1)
-          //   inQuotes = !inQuotes;
-          // else
-          if(reader[ridx]==="<" && !inQuotes)
+          if(reader[ridx]==="<")
             inCode = true;
-          else if(reader[ridx]===">" && !inQuotes)
+          else if(reader[ridx]===">")
             inCode = false;
 
           // scans for keywords by checking strong + 1 char before and after
           let found = false;
           if(!inCode){
-            // countAndReplace(userCounter,)
             for(let i = 0;i < userSkills.length;i++){
 
               // checks if the keyword is in the beginning of the string
@@ -110,43 +104,8 @@ chrome.runtime.onMessage.addListener(
           ridx++;
           sidx++;
         }
-        console.log(userCounter);
-        console.log(allCounter);
         document.body.innerHTML = setter;
         break;
-        //-----------------------------------------------------------
-        // var skillsList = ["react.js", "JavaScript", "react", 'retrieve'];
-        // var userSkillsList = [ "JavaScript"];
-        //
-        // //get the number of appearances of a keyword
-        // var wholeText =  document.body.innerText;
-        // var skillInReg = "";
-        // var skillsCount = 0;
-        // var userSkillsCount = 0;
-        // for (let listIndex = 0; listIndex < skillsList.length; listIndex ++){
-        //   skillInReg = new RegExp("\\b"+skillsList[listIndex]+ "\\b",'gi');
-        //   skillsCount += (wholeText.match(skillInReg) || []).length;
-        //
-        //   //add highlight to words
-        //   var replaceText = "<cake style='background-color:red;'>"
-        //                     + skillsList[listIndex]
-        //                     + "</cake>";
-        //   var wholeHTML = document.body.innerHTML;
-        //   var newHTML = wholeHTML.replace(skillInReg, replaceText);
-        //   if(wholeHTML !== newHTML)
-        //     document.body.innerHTML = newHTML;
-        // }
-        // for (let listIndex = 0; listIndex < userSkillsList.length; listIndex ++){
-        //     skillInReg = new RegExp("\\b"+userSkillsList[listIndex]+ "\\b",'gi');
-        //     userSkillsCount += (wholeText.match(skillInReg) || []).length;
-        // }
-        //
-        // console.log("------skillsCount:");
-        // console.log(skillsCount);
-        // console.log("------userSkillsCount:");
-        // console.log(userSkillsCount);
-        //
-        // break;
       default:
         console.log('invalid request command');
         break;
