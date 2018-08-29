@@ -1,0 +1,31 @@
+.float_base {
+    background-color:blue; 
+    position: 'fixed';
+    top: '10%';
+    left: '50%';
+    width: '100%';   
+    height: '100%';
+    
+    outline: 0;
+    position: fixed;
+    right: 20px;
+    bottom: 60px;
+    display: block;
+    background: #1F8CEB;
+    width: 90px;
+    height: 90px;
+    overflow: auto;
+    border: 0;
+    /* border-radius: 100%; */
+    border-radius: 25px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06), 0 2px 32px rgba(0, 0, 0, 0.16);
+    transition: box-shadow 200ms ease;
+    cursor: pointer;
+    .score{
+        margin: 0 auto;
+        align-items: center;
+        text-align: center;
+        
+
+    };
+}

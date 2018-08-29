@@ -15,7 +15,7 @@ div.style.backgroundColor = 'red';
 div.style.width = '100px';
 div.style.height = '100px';
 div.innerHTML = '<div style="color:blue; width:300px; height:300px; ">yyyyyyyyyyyyyyyy</div>';
-document.body.appendChild( div );
+// document.body.appendChild( div );
 
 
 // $.get(chrome.extension.getURL('/float_elemente.html'), function(data) {

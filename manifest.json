@@ -16,6 +16,7 @@
         "matches": [
             "*://*/*"
         ],
+        "css": ["floating_element.css"],
         "js": [
             "content.js",
             "float_element.js"
