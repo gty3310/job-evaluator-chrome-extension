@@ -1,0 +1,20 @@
+{
+    "name": "job-evaluator-chrome-extension",
+    "version": "1.0.0",
+    "description": "## Background",
+    "main": "content.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/gty3310/job-evaluator-chrome-extension.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/gty3310/job-evaluator-chrome-extension/issues"
+    },
+    "homepage": "https://github.com/gty3310/job-evaluator-chrome-extension#readme"
+  }
+  

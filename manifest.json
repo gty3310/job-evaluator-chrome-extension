@@ -10,6 +10,7 @@
   "browser_action":{
     "default_popup":"popup.html"
   },
+  
   "content_scripts": [
     {
         "matches": [
@@ -17,9 +18,22 @@
         ],
         "js": [
             "content.js"
+            
         ],
         "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+          "float_element.js"
+      ],
+      "run_at": "document_idle"
     }
   ],
-  "manifest_version": 2
+  "manifest_version": 2,
+  "web_accessible_resources": [
+    "float_element.html"
+  ]
 }
