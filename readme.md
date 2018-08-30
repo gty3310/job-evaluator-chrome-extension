@@ -44,3 +44,56 @@ We created Job Evaluator, a Chrome Extension that evaluates job descriptions for
 ### MVP 4 (Day5&6):
 - [ ] Enable Linkedin login
 - [ ] store user data into mongoDB
+
+
+## Code snippet 
+
+### async
+  chrome.storage.sync.get(
+     ['jobScannerSwitch','allSkills','userSkills'],
+     (result) => {
+       jobScannerSwitch = result.jobScannerSwitch || false;
+       allSkills = result.allSkills || [];
+       userSkills = result.userSkills || [];
+
+       if(!jobScannerSwitch){
+         document.body.innerHTML = originalHTML;
+         return;
+       }
+  
+  ...
+  )
+
+### Sort the skills list by length before searching, to avoid counting "ruby" in "ruby on rails"
+
+1. go through html char by char
+2. for each skill, check the phrase of equal length after char to find match
+3. if one skill matches, then it does not check the rest of the skills (the skill list is sorted from longer skills to shorter skills)
+
+
+### Receiving commands from popup 
+chrome.runtime.onMessage.addListener(
+   (request, sender, sendResponse)=>{
+     let something;
+
+     switch(request.command){
+       case "findAllSkills":
+         findAllSkills();
+         break;
+       default:
+         console.log('invalid request command');
+         break;
+     }
+   }
+ );
+
+### popup window gets info from chrome's local storage
+
+chrome.storage.sync.get(
+   ['jobScannerSwitch','userSkills'],
+   (result) => {
+     jobScannerSwitch = result.jobScannerSwitch || false;
+     userSkills = result.userSkills || [];
+     setSkillsHTML();
+   }
+ );
