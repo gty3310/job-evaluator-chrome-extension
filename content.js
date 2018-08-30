@@ -41,6 +41,8 @@ const findAllSkills = () => {
         let found = false;
         if(!inCode){
           for(let i = 0;i < userSkills.length;i++){
+            if(userSkills[i].length < 1)
+              continue;
 
             // checks if the keyword is in the beginning of the string
             let substring = setter.substring(sidx, sidx + userSkills[i].length);
