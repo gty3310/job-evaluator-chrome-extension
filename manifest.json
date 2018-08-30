@@ -18,10 +18,21 @@
         ],
         "css": ["floating_element.css"],
         "js": [
-            "content.js",
-            "float_element.js"
+            "content.js"
+            
         ],
         "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "css": ["floating_element.css"],
+      "js": [
+          
+          "float_element.js"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "manifest_version": 2,

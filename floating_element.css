@@ -1,6 +1,6 @@
-.float_base {
-    background-color: lightskyblue; 
-    position: 'fixed';
+#float_element_base_chrome_extention {
+    background-color: lightblue; 
+    /* position: 'fixed'; */
     top: '10%';
     left: '50%';
     width: '100%';   
@@ -27,7 +27,8 @@
     align-items: center;
     text-align: center;
 
-    .score{
+    z-index: 1000;
+    #score{
         margin: 0 auto;
         align-items: center;
         text-align: center;
@@ -38,7 +39,7 @@
         font-size: 100%;
         font: inherit;
         vertical-align: baseline; */
-        .score_value{
+        #score_value{
             font-family: "Times New Roman", Times, Sans-serif;
             display: block;
             font-size: 2em;
@@ -47,7 +48,17 @@
             margin-left: 0;
             margin-right: 0;
             font-weight: bold;
+            /* color: blue; */
         }
-        
+        #score_discription{
+            font-family: "Times New Roman", Times, Sans-serif;
+            display: block;
+            font-size: 1.17em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+        }
     };
 }
