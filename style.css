@@ -1,1 +1,29 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+/* @import url('https://fonts.googleapis.com/css?family=Raleway'); */
+#float_element_base_chrome_extention {
+    background-color: lightblue; 
+    
+    box-sizing: border-box;
+    opacity: 0.5;
+
+    outline: 0;
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    display: block;
+
+    width: 95px;
+    height: 120px;
+    
+
+    border: 0;
+    padding: 15px;
+    border-radius: 25px;
+
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06), 0 2px 32px rgba(0, 0, 0, 0.16);
+    transition: box-shadow 200ms ease;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+
+    z-index: 1000;
+}

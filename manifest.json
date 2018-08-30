@@ -16,7 +16,6 @@
         "matches": [
             "*://*/*"
         ],
-        "css": ["floating_element.css"],
         "js": [
             "content.js"
             
@@ -27,9 +26,7 @@
       "matches": [
         "*://*/*"
       ],
-      "css": ["floating_element.css"],
       "js": [
-          
           "float_element.js"
       ],
       "run_at": "document_idle"
