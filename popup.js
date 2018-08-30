@@ -1,23 +1,31 @@
-let button = document.getElementById('search');
-
 //get info for searching and editting skills
-let extensionSwitch;
+let jobScannerSwitch;
 
 chrome.storage.sync.get(
   ['jobScannerSwitch'],
   (result) => {
-    extensionSwitch = result.jobScannerSwitch || false;
+    jobScannerSwitch = result.jobScannerSwitch || false;
   }
 );
 
-button.onclick = function(element){
-  let input = document.getElementsByTagName('input')[0];
-  extensionSwitch = !extensionSwitch;
-  chrome.storage.sync.set(
-    {'jobScannerSwitch': extensionSwitch},
-    function() {
+// set input field
+let inputField = document.getElementsByTagName('input')[0];
 
-    }
+chrome.storage.sync.get(
+  ['userSkills'],
+  result => {
+    console.log(result.userSkills);
+    inputField.value = result.userSkills.join(', ');
+  }
+)
+
+// set function of onoff switch
+let onoff = document.getElementById('onoff');
+
+onoff.onclick = function(element){
+  jobScannerSwitch = !jobScannerSwitch;
+  chrome.storage.sync.set(
+    {'jobScannerSwitch': jobScannerSwitch}
   );
 
   chrome.tabs.query(
@@ -25,14 +33,35 @@ button.onclick = function(element){
     tabs => {
       chrome.tabs.sendMessage(
         tabs[0].id,
-        {
-          command: "findAllSkills",
-          allSkills:['JavaScript','question'],
-          userSkills:['question']
-        },
-        function(response) {
-          //do something with the response
-        }
+        {command: "findAllSkills"}
+      );
+    }
+  );
+};
+
+// set form functionality
+let form = document.getElementsByTagName('form')[0];
+
+form.onsubmit = (element)=>{
+  element.preventDefault();//can remove if box entering is complete
+  // input.value = textInput;
+
+
+  // saves input to local storage
+  let input = document.getElementsByTagName('input')[0];
+  let textInput = input.value;
+  chrome.storage.sync.set({"userSkills":input.value.split(", ")});
+
+  jobScannerSwitch = true;
+  chrome.storage.sync.set({'jobScannerSwitch': true});
+
+  // send message to active tab to start search
+  chrome.tabs.query(
+    {active: true, currentWindow: true},
+    tabs => {
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        {command: "findAllSkills"}
       );
     }
   );
@@ -40,19 +69,7 @@ button.onclick = function(element){
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse)=>{
-    let input = document.getElementsByTagName('input')[0].split(', ');
+    //shoulud only receive conter hashes
 
-    console.log('receive request ',request.command);
-    switch(request.command){
-      case "getParams":
-        sendResponse({
-          userSkills:input,
-          allSkills:['JavaScript', 'question']
-        });
-        break;
-      default:
-        console.log("bad request command to popup");
-        break;
-    }
   }
 );
