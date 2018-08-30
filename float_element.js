@@ -4,60 +4,70 @@
 // document.body.style.width = '100%';
 let hastoggle = false;
 let html = `<div >
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+</style>
+<div style="
+background-color: lightblue; 
+/* position: 'fixed'; */
+        top: '10%';
+        left: '50%';
+        box-sizing: border-box;
+        opacity: 0.5;
 
-<div id="float_element_base_chrome_extention" style="
-    html, body, header, nav, h1, a,
-    ul, li, strong, main, button, i,
-    section, img, div, h2, p, form,
-    fieldset, label, input, textarea,
-    span, article, footer, time, small {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    color: inherit;
-    font: "Open Sans", sans-serif;
-    text-align: inherit;
-    text-decoration: inherit;
-    vertical-align: inherit;
-    box-sizing: inherit;
-    background: transparent;
-    }
+        outline: 0;
+        position: fixed;
+        right: 20px;
+        bottom: 90px;
+        display: block;
 
-    p {
-    font-size: 14px;
-    line-height: 170%;
-    }
-">
+        width: 95px;
+        height: 120px;
+        
+
+        border: 0;
+        padding: 15px;
+        border-radius: 25px;
+
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06), 0 2px 32px rgba(0, 0, 0, 0.16);
+        transition: box-shadow 200ms ease;
+        cursor: pointer;
+        align-items: center;
+        text-align: center;
+
+        z-index: 1000;
+" >
     <div id="score">
-        <div id="score_value" style="
-            font-family: "Times New Roman", Times, serif;
+        <div style="
+        font-family: 'Raleway', sans-serif !important;
+        
             display: block;
-            font-size:2em;
+            font-size: 17px;
             margin-top: 0.67em;
             margin-bottom: 0.67em;
             margin-left: 0;
             margin-right: 0;
             font-weight: bold;
-            color: green;
-            ">
+        ">
             60%
         </div>
-        <div id="score_discription" style="
-        font-family: "Times New Roman", Times, serif;
-             display: block;
-            font-size: 1.17em;
+        <div style="
+        font-family: 'Raleway', sans-serif !important;
+        
+            display: block;
+            font-size: 12px;
             margin-top: 1em;
             margin-bottom: 1em;
             margin-left: 0;
             margin-right: 0;
             font-weight: bold;
-            ">
+        ">
             Keywords Matching
         </div>
     </div> 
 </div> 
 </div>`
+
 var div = document.createElement( 'div' );
 // div.id = 'myDivId';
 // div.style.position = 'fixed';
@@ -68,6 +78,7 @@ var div = document.createElement( 'div' );
 // div.style.backgroundColor = 'red';
 // div.style.width = '100px';
 // div.style.height = '100px';
+
 div.innerHTML = html;
 // div.innerHTML = '<div style="color:blue; width:300px; height:300px; ">yyyyyyyyyyyyyyyy</div>';
 document.body.appendChild( div );
@@ -100,3 +111,16 @@ console.log(result);
 //     }
 //     return hastoggle;
 // }
+function loadCss() {
+    var link = document.createElement( "link" );
+link.type = "text/css";
+link.rel = "stylesheet";
+link.href = 'style.css'
+
+document.getElementsByTagName( "head" )[0].appendChild( link );
+}
+
+
+window.onload = function(){
+    loadCss();
+}
