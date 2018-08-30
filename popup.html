@@ -2,16 +2,21 @@
   <html>
     <head>
       <style>
-        button {
+        #onoff {
           height: 50px;
-          width: 100px;
-          outline: none;
+          border: none;
+        }
+        form > button {
+          display:none;
         }
       </style>
     </head>
     <body>
-      <input type="text"/>
-      <button id="search">search to be implemented</button>
+      <form>
+        <input type="text"/>
+        <button type='submit' id="search"></button>
+      </form>
+      <button id="onoff">Turn On/Off</button>
       <script src="popup.js"></script>
     </body>
   </html>

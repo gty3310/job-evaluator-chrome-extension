@@ -3,6 +3,10 @@
   "version": "1.0",
   "description": "Evaluates job decriptions with user inputted skills to provide a score for how suitable the job is.",
   "permissions":["storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
   "browser_action":{
     "default_popup":"popup.html"
   },
