@@ -1,5 +1,6 @@
 // get base document to revert to when search is undone
-const originalHTML = document.body.innerHTML;
+let originalHTML = document.body.innerHTML;
+let oldSwitch = undefined;
 
 // finds
 const findAllSkills = () => {
@@ -15,8 +16,18 @@ const findAllSkills = () => {
       allSkills = result.allSkills || [];
       userSkills = result.userSkills || [];
 
+      if(oldSwitch === undefined)
+        oldswitch = jobScannerSwitch;
+      if(originalHTML === undefined)
+        originalHTML = document.body.innerHTML;
+
+      if(!oldSwitch)
+        originalHTML = document.body.innerHTML;
+
       if(!jobScannerSwitch){
+        oldSwitch = jobScannerSwitch;
         document.body.innerHTML = originalHTML;
+        deleteDiv();
         return;
       }
 
@@ -29,12 +40,17 @@ const findAllSkills = () => {
       let setter = originalHTML;
 
       let inCode = false;
+      let inQuotes = null;
       let sidx = 0;
 
       while(sidx < setter.length){
-        if(setter[sidx]==="<")
+        if(inCode && !inQuotes && `\`"'`.indexOf(setter[sidx])>-1)
+          inQuotes = setter[sidx];
+        else if(inQuotes && setter[sidx] === inQuotes)
+          inQuotes = null;
+        else if(!inQuotes && setter[sidx]==="<")
           inCode = true;
-        else if(setter[sidx]===">")
+        else if(!inQuotes && setter[sidx]===">")
           inCode = false;
 
         // scans for keywords by checking strong + 1 char before and after
@@ -61,13 +77,13 @@ const findAllSkills = () => {
                 allCounter[userSkills[i]] += 1;
 
               // insert first half of highligh html
-              const highlight1=`<cake style="background-color:#00ffcc;">`;
+              const highlight1=`<span style="background-color:#00ffcc;">`;
               setter = setter.slice(0,sidx)
                   + highlight1
                   + setter.slice(sidx);
               sidx += highlight1.length + userSkills[i].length;
 
-              const highlight2=`</cake>`;
+              const highlight2=`</span>`;
               setter = setter.slice(0,sidx)
                   + highlight2
                   + setter.slice(sidx);
@@ -92,13 +108,13 @@ const findAllSkills = () => {
                   allCounter[allSkills[i]] += 1;
 
                 // insert first half of highligh html
-                const highlight1="<cake style='background-color:#ffaa80;'>";
+                const highlight1="<span style='background-color:#ffaa80;'>";
                 setter = setter.slice(0,sidx)
                     + highlight1
                     + setter.slice(sidx);
                 sidx += highlight1.length + allSkills[i].length;
 
-                const highlight2="</cake>";
+                const highlight2="</span>";
                 setter = setter.slice(0,sidx)
                     + highlight2
                     + setter.slice(sidx);
@@ -112,11 +128,31 @@ const findAllSkills = () => {
         sidx++;
       }
       document.body.innerHTML = setter;
+      const score = processScore(userCounter,allCounter);
+        createUpdateDiv(score);
+
+      oldSwitch = jobScannerSwitch;
     }
   );
 };
+window.onload = ()=> {
+  findAllSkills();
+}
 
-findAllSkills();
+const processScore = (userCounter, allCounter)=>{
+  let userScores = Object.values(userCounter);
+  let allScores = Object.values(allCounter);
+  let userScore = 0;
+  let allScore = 0;
+  const log2 = Math.log(2);
+  userScores.forEach(score=>{
+    userScore += 1 + Math.log(score)/log2;
+  });
+  allScores.forEach(score=>{
+    allScore += 1 + Math.log(score)/log2;
+  });
+  return Math.floor(userScore/allScore * 100 + .5) || 0;
+};
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse)=>{

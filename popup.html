@@ -2,18 +2,72 @@
   <html>
     <head>
       <style>
+        body{
+          width: 300px;
+          padding:0;
+          margin:0;
+          box-sizing: border-box;;
+        }
         #onoff {
-          height: 50px;
-          border: none;
+          margin:10px;
+          background-color: white;
+          border:1px solid black;
+          padding:5px 10px;
+          border-radius: 3px;
+        }
+        p{
+          display: block;
+          margin:10px;
+        }
+        form{
+          display:flex;
+          flex-direction: row;
+          align-items: center;
+          width:272px;
+          flex-wrap:wrap;
+          border:1px solid grey;
+          padding:3px;
+          margin:0 10px;
+          border-radius: 3px;
         }
         form > button {
           display:none;
         }
+        form  > input {
+          min-width: 1px;
+          width:1px;
+          max-width: 266px;
+          border:none;
+          padding:3px 0 3px 3px;
+          font-size: 14px;
+        }
+        form > input:focus {
+          outline:none;
+        }
+        #skill{
+          border:1px solid grey;
+          padding: 2px 5px;
+          border-radius: 2px;
+          margin-right: 3px;
+        }
+        #skill > button{
+          border:none;
+          background-color:white;
+          font-size: 14px;
+          padding: 0 3px;
+          text-align: center;
+          margin-left: 5px;
+          border-radius:3px;
+        }
+        #skill>button:hover{
+          background-color:red;
+        }
       </style>
     </head>
     <body>
+      <p>Enter your skills:</p>
       <form>
-        <input type="text"/>
+        <input type="text"></input>
         <button type='submit' id="search"></button>
       </form>
       <button id="onoff">Turn On/Off</button>

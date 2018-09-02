@@ -6,7 +6,19 @@ chrome.storage.sync.get(
   (result) => {
     jobScannerSwitch = result.jobScannerSwitch || false;
     userSkills = result.userSkills || [];
+
+    let onoff = document.getElementById('onoff');
+    if(jobScannerSwitch){
+      onoff.innerText = 'Turn Off';
+      onoff.setAttribute('style','background-color:red;')
+    }
+    else{
+      onoff.innerText = 'Turn On';
+      onoff.setAttribute('style','background-color:#00ffcc;')
+    }
+
     setSkillsHTML();
+    document.getElementsByTagName('input')[0].focus();
   }
 );
 
@@ -38,12 +50,12 @@ const setSkillsHTML = ()=>{
 
 // delete skill from userskill list
 const deleteSkill = i=>{
-  console.log('deletSkill');
   userSkills.splice(i,1);
   chrome.storage.sync.set(
     {"userSkills":userSkills},
     ()=>{
       setSkillsHTML();
+      document.getElementsByTagName('input')[0].focus();
       chrome.tabs.query(
         {active: true, currentWindow: true},
         tabs =>chrome.tabs.sendMessage(tabs[0].id,{command: "findAllSkills"})
@@ -57,9 +69,18 @@ let onoff = document.getElementById('onoff');
 
 onoff.onclick = function(element){
   jobScannerSwitch = !jobScannerSwitch;
+  if(jobScannerSwitch){
+    onoff.innerText = 'Turn Off';
+    onoff.setAttribute('style','background-color:red;')
+  }
+  else{
+    onoff.innerText = 'Turn On';
+    onoff.setAttribute('style','background-color:#00ffcc;')
+  }
   chrome.storage.sync.set(
     {'jobScannerSwitch': jobScannerSwitch},
     ()=>{
+      document.getElementsByTagName('input')[0].focus();
       chrome.tabs.query(
         {active: true, currentWindow: true},
         tabs => {
@@ -73,13 +94,21 @@ onoff.onclick = function(element){
   );
 };
 
+var textinput = document.getElementsByTagName('input')[0]
+
+
 // set form functionality
 let form = document.getElementsByTagName('form')[0];
+
+form.oninput = (e)=>{
+  let textinput = document.getElementsByTagName('input')[0];
+  textinput.setAttribute('style', `width:${textinput.value.length * 16}px;`);
+}
 
 form.onsubmit = (element)=>{
   // saves input to local storage
   let input = document.getElementsByTagName('input')[0].value.trim();
-  if(input.length > 0){
+  if(input.length > 0 && userSkills.indexOf(input.toLowerCase())<0){
     userSkills.push(input);
 
     chrome.storage.sync.set(
@@ -95,6 +124,7 @@ form.onsubmit = (element)=>{
               tabs =>chrome.tabs.sendMessage(tabs[0].id,{command: "findAllSkills"})
             );
             setSkillsHTML();
+            document.getElementsByTagName('input')[0].focus();
           }
         );
       }
@@ -102,9 +132,6 @@ form.onsubmit = (element)=>{
   }
 };
 
-chrome.runtime.onMessage.addListener(
-  (request, sender, sendResponse)=>{
-    //should only receive conter hashes
-
-  }
-);
+document.body.onclick = e=>{
+  document.getElementsByTagName('input')[0].focus();
+}
