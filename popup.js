@@ -1,10 +1,11 @@
 //get info for searching and editting skills
-let jobScannerSwitch,userSkills;
+let jobScannerSwitch,userSkills,floatingDivToggle;
 
 chrome.storage.sync.get(
-  ['jobScannerSwitch','userSkills'],
+  ['jobScannerSwitch','userSkills','floatingDivToggle'],
   (result) => {
     jobScannerSwitch = result.jobScannerSwitch || false;
+    floatingDivToggle = result.floatingDivToggle;
     userSkills = result.userSkills || [];
 
     let onoff = document.getElementById('onoff');
@@ -15,6 +16,16 @@ chrome.storage.sync.get(
     else{
       onoff.innerText = 'Turn On';
       onoff.setAttribute('style','background-color:#00ffcc;')
+    }
+
+    let toggle = document.getElementById('toggleFloatingDiv');
+    if(floatingDivToggle){
+      toggle.innerText = 'Hide Floating Element';
+      toggle.setAttribute('style','background-color:red;');
+    }
+    else{
+      toggle.innerText = 'Show Floating Element';
+      toggle.setAttribute('style','background-color:#00ffcc;');
     }
 
     setSkillsHTML();
@@ -58,11 +69,47 @@ const deleteSkill = i=>{
       document.getElementsByTagName('input')[0].focus();
       chrome.tabs.query(
         {active: true, currentWindow: true},
-        tabs =>chrome.tabs.sendMessage(tabs[0].id,{command: "findAllSkills"})
+        tabs =>chrome.tabs.sendMessage(
+          tabs[0].id,
+          {command: "findAllSkills"}
+        )
       );
     }
   );
 }
+
+// set functionality of floating div toggle
+let toggle = document.getElementById('toggleFloatingDiv');
+
+toggle.onclick = function(element){
+  floatingDivToggle = !floatingDivToggle;
+  let toggle = document.getElementById('toggleFloatingDiv');
+  if(floatingDivToggle){
+    toggle.innerText = 'Hide Floating Element';
+    toggle.setAttribute('style','background-color:red;');
+  }
+  else{
+    toggle.innerText = 'Show Floating Element';
+    toggle.setAttribute('style','background-color:#00ffcc;');
+  }
+
+  chrome.storage.sync.set(
+    {'floatingDivToggle':floatingDivToggle},
+    ()=>{
+      document.getElementsByTagName('input')[0].focus();
+      chrome.tabs.query(
+        {active: true, currentWindow: true},
+        tabs => {
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            {command: "findAllSkills"}
+          );
+        }
+      );
+    }
+  );
+}
+
 
 // set function of onoff switch
 let onoff = document.getElementById('onoff');
@@ -94,8 +141,14 @@ onoff.onclick = function(element){
   );
 };
 
-var textinput = document.getElementsByTagName('input')[0]
-
+const updateScore=(score)=>{
+  console.log('update score');
+  let scoreDiv = document.getElementById('scoreDiv');
+  if(score !== null)
+    scoreDiv.innerText = `Score: ${score}%`;
+  else
+    scoreDiv.innerText = null;
+}
 
 // set form functionality
 let form = document.getElementsByTagName('form')[0];
@@ -121,7 +174,10 @@ form.onsubmit = (element)=>{
             // send message to active tab to start search
             chrome.tabs.query(
               {active: true, currentWindow: true},
-              tabs =>chrome.tabs.sendMessage(tabs[0].id,{command: "findAllSkills"})
+              tabs =>chrome.tabs.sendMessage(
+                tabs[0].id,
+                {command: "findAllSkills"}
+              )
             );
             setSkillsHTML();
             document.getElementsByTagName('input')[0].focus();
@@ -135,3 +191,18 @@ form.onsubmit = (element)=>{
 document.body.onclick = e=>{
   document.getElementsByTagName('input')[0].focus();
 }
+
+chrome.runtime.onMessage.addListener(
+  function(request,sender,sendResponse){
+    console.log(request.score);
+    updateScore(request.score);
+  }
+)
+
+chrome.tabs.query(
+  {active: true, currentWindow: true},
+  tabs =>chrome.tabs.sendMessage(
+    tabs[0].id,
+    {command: "findAllSkills"}
+  )
+);

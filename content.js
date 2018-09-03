@@ -3,16 +3,17 @@ let originalHTML = document.body.innerHTML;
 let oldSwitch = undefined;
 
 // finds
-const findAllSkills = () => {
+const findAllSkills = (sendResponse) => {
   const notChar = (c)=>{
     return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c) < 0;
   }
 
-  let jobScannerSwitch, allSkills, userSkills;
+  let jobScannerSwitch, allSkills, userSkills,floatingDivToggle;
   chrome.storage.sync.get(
-    ['jobScannerSwitch','allSkills','userSkills'],
+    ['jobScannerSwitch','allSkills','userSkills','floatingDivToggle'],
     (result) => {
       jobScannerSwitch = result.jobScannerSwitch || false;
+      floatingDivToggle = result.floatingDivToggle;
       allSkills = result.allSkills || [];
       userSkills = result.userSkills || [];
 
@@ -28,6 +29,7 @@ const findAllSkills = () => {
         oldSwitch = jobScannerSwitch;
         document.body.innerHTML = originalHTML;
         deleteDiv();
+        sendScore(null);
         return;
       }
 
@@ -129,15 +131,27 @@ const findAllSkills = () => {
       }
       document.body.innerHTML = setter;
       const score = processScore(userCounter,allCounter);
+      if(floatingDivToggle)
         createUpdateDiv(score);
+      else
+        deleteDiv();
+
+      sendScore(score);
 
       oldSwitch = jobScannerSwitch;
     }
   );
 };
 window.onload = ()=> {
-  findAllSkills();
-}
+  chrome.storage.sync.get(
+    ['jobScannerSwitch','allSkills','userSkills'],
+    (result) => {
+      jobScannerSwitch = result.jobScannerSwitch || false;
+      if(jobScannerSwitch)
+        findAllSkills();
+    }
+  )
+};
 
 const processScore = (userCounter, allCounter)=>{
   let userScores = Object.values(userCounter);
@@ -156,8 +170,6 @@ const processScore = (userCounter, allCounter)=>{
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse)=>{
-    let something;
-
     switch(request.command){
       case "findAllSkills":
         findAllSkills();
@@ -168,3 +180,7 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+const sendScore = score=>{
+  chrome.runtime.sendMessage({score: score});
+}
