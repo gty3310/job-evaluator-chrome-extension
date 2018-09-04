@@ -65,7 +65,7 @@ const findAllSkills = (sendResponse) => {
       			do {
       				rangeList.push(window.getSelection().getRangeAt(0));
       				// don't modify the range here, cursor in find() will be corrupted
-      			} while (window.find(word, false, false, false, false, false, false));
+      			} while (window.find(word, false, false, false, true, false, false));
       			// reset scroll position, window.find() will select the last word...
       			window.scrollTo(0, 0);
       		} else {
@@ -105,24 +105,23 @@ const findAllSkills = (sendResponse) => {
       		range.insertNode(iNode);
       	};
 
-        highlightWordAcrossNode(allSkills[i], "ffaa80");
-        // skillInReg = "urriculum";
-        // // debugger;
-        // highlightWordAcrossNode(skillInReg, "ffaa80");
+        // highlightWordAcrossNode(allSkills[i], "ffaa80");  // this is what we need ------------
+        highlightWordAcrossNode("Cloud", "ffaa80");
+        /// It takes very long time to just search for one keyword.
+        // it seems like having issue searching for multiple keywords using window.find() with "searchWholeWord"-----
+
+
+
+        // highlightWordAcrossNode("javascript", "ffaa80");
         // skillInReg = "curriculum";
-        // // debugger;
         // highlightWordAcrossNode(skillInReg, "ffaa80");
         // skillInReg = "sf";
-        // // debugger;
         // highlightWordAcrossNode(skillInReg, "ffaa80");
         // skillInReg = "sf";
-        // // debugger;
         // highlightWordAcrossNode(skillInReg, "ffaa80");
         // skillInReg = "dele";
-        // // debugger;
         // highlightWordAcrossNode(skillInReg, "ffaa80");
         // skillInReg = "arrays";
-        // // debugger;
         // highlightWordAcrossNode(skillInReg, "ffaa80");
       }
 
